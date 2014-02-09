@@ -6,7 +6,7 @@ Draw your histograms quickly and easily.
 
 Setup
 ========
-+ Add MIPlotter folder to your project.
++ Add MIPlotter folder to your project
 + Import "MIPlotter.h"
 + Do something like this
 
