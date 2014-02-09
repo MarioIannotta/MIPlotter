@@ -10,7 +10,7 @@ Setup
 + Import "MIPlotter.h"
 + Do something like this
 
-```
+```objectivec
 self.plotter = [[MIPlotter alloc] initInView:self.background];
           
 [self.plotter addPlotOf:@[@0.5,@2.25,@1.39,@2.39,@1]
