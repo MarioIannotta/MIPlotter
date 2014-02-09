@@ -1,6 +1,7 @@
 MIPlotter
 =========
 
+![MIPlotter](/demo/banner.png "Draw your histograms quickly and easily.")
 Draw your histograms quickly and easily.
 
 Setup
@@ -31,3 +32,4 @@ self.plotter = [[MIPlotter alloc] initInView:self.background];
 [self.plotter drawAllPlots];
 ```
 + Be amazed of how easy it was
+
