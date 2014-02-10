@@ -1,10 +1,7 @@
 MIPlotter
 =========
-
-<<<<<<< HEAD
 ![MIPlotter](/result.png "Draw your histograms quickly and easily.")
 =======
->>>>>>> ef6ca7fe762bbcd5b6942ef8f9446043b3482553
 Draw your histograms quickly and easily.
 
 Setup
