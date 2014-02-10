@@ -1,7 +1,5 @@
 MIPlotter
 =========
-![MIPlotter](/result.png "Draw your histograms quickly and easily.")
-=======
 Draw your histograms quickly and easily.
 
 Setup
@@ -31,5 +29,8 @@ MIPlotter *plotter = [[MIPlotter alloc] initInView:self.PlotterContainer];
 [plotter setDecimationCoeff:4];
 [plotter drawAllPlotsWithYMax:25];
 ```
-+ Be amazed of how easy it was
+
+Result
+========
+![MIPlotter](/result.png "Draw your histograms quickly and easily.")
 
