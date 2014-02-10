@@ -1,7 +1,7 @@
 MIPlotter
 =========
 
-![MIPlotter](/demo/banner.png "Draw your histograms quickly and easily.")
+![MIPlotter](/result.png "Draw your histograms quickly and easily.")
 Draw your histograms quickly and easily.
 
 Setup
