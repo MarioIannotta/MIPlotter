@@ -41,7 +41,7 @@ Configuration
 [plotter setBackLineColor:UI_COLOR]; // will set the color of the lines in background (the dotted ones)
 [plotter setLabelColor:UI_COLOR]; // will set the color of the labels (both x and y)
 
-[plotter setPointRadius:R]; // willset the point radius (R = 0 will not show points)
+[plotter setPointRadius:R]; // will set the point radius (R = 0 will not show points)
 [plotter setLineWidth:R]; // will set the width for all the lines
 
 [plotter setXPadding:R]; // will set the space between the plot and the left and right sides.
