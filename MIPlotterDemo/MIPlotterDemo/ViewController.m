@@ -35,7 +35,8 @@
     
     [plotter setLabelForXValues:@[@"1 jan", @"2 jan", @"3 jan", @"4 jan", @"5 jan", @"6 jan",@"7 jan", @"8 jan", @"9 jan", @"10 jan", @"11 jan", @"12 jan",@"13 jan", @"14 jan", @"15 jan", @"16 jan", @"17 jan", @"18 jan"]];
     [plotter setDecimationCoeff:4];
-    [plotter drawAllPlotsWithYMax:25];
+    [plotter drawAllPlotsWithYMax:20];
+    //[plotter drawAllPlots];
     
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.

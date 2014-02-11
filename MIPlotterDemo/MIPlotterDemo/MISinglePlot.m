@@ -11,6 +11,8 @@
 
 #define debug 0
 #define xOffset 0.2 // need it for fix the space between the fill blocks
+#define minXLabelHeight 10
+#define minYLabelWidth 20
 
 @implementation MISinglePlot
 
@@ -40,57 +42,14 @@
         self.lineColor = [UIColor colorWithRed:7/255.0 green:118/255.0 blue:179/255.0 alpha:1];
         self.fillColor = [UIColor colorWithRed:126/255.0 green:187/255.0 blue:221/255.0 alpha:0.5];
         
-        self.axesWidth = 1;
-        self.xPadding = 10;
-        self.yPadding = 10;
-        self.xLabelHeight = 20;
-        self.yLabelWidth = 40;
-        self.yNumberDivision = 10;
-        
-        self.showPoints = YES;
-        self.showXAxis = NO;
-        self.showYAxis = NO;
-        self.showXLabel = YES;
-        self.showYLabel = YES;
-        
-        if (self.showYLabel) {
-            
-            CGRect tmpFrame = self.container;
-            tmpFrame.size.width -= self.yLabelWidth;
-            
-            self.container = tmpFrame;
-            
-            self.yLabelView = [[UIView alloc] initWithFrame:CGRectMake(frame.size.width - self.xPadding - self.yLabelWidth,
-                                                                       self.yPadding/2,
-                                                                       self.yLabelWidth,
-                                                                       frame.size.height - self.yPadding - self.xLabelHeight)];
-            if (debug) [self.yLabelView setBackgroundColor:[UIColor greenColor]];
-            [self addSubview:self.yLabelView];
-            
-        }
-        
-        if (self.showXLabel) {
-            
-            CGRect tmpFrame = self.container;
-            tmpFrame.size.height -= self.xLabelHeight;
-            
-            self.container = tmpFrame;
-            
-            self.xLabelView = [[UIView alloc] initWithFrame:CGRectMake(self.xPadding/2,
-                                                                       frame.size.height - self.xLabelHeight - self.yPadding/2,
-                                                                       frame.size.width - self.xPadding - self.yLabelWidth,
-                                                                       self.xLabelHeight + self.yPadding/2)];
-            if (debug) [self.xLabelView setBackgroundColor:[UIColor redColor]];
-            [self addSubview:self.xLabelView];
-        }
-        
-        
     }
     
     return self;
 }
 
 - (void)drawRect:(CGRect)rect {
+    
+    [self addAxesLabels];
     
     NSMutableArray *pointsArray = [[NSMutableArray alloc] init];
     
@@ -110,7 +69,7 @@
             [self drawPathTopLeft:firstPoint topRight:secondPoint bottomLeft:[self pointForX:i andY:0] bottomRight:[self pointForX:i + 1 andY:0] inContext:context];
         }
         
-        if (self.showPoints) [self drawPoint:firstPoint inContext:context];
+        if (self.plotter.pointRadius != 0) [self drawPoint:firstPoint inContext:context];
         
         [pointsArray addObject:[NSValue valueWithCGPoint:firstPoint]];
     }
@@ -149,7 +108,6 @@
     CGContextStrokePath(context);
     
 }
-
 - (void)drawLineFrom:(CGPoint)firstPoint to:(CGPoint)secondPoint inContext:(CGContextRef)context ofWidth:(float)width andColor:(UIColor *)color dotted:(BOOL)dotted {
     
     if (debug) NSLog(@"drawing from (%g,%g) to (%g, %g)", firstPoint.x, firstPoint.y, secondPoint.x, secondPoint.y);
@@ -184,14 +142,9 @@
 }
 - (void)drawAxesInContext:(CGContextRef)context {
     
-    if (self.showXAxis)
-        [self drawLineFrom:[self pointForX:0 andY:0] to:[self pointForX:(int)self.values.count - 1 andY:0] inContext:context ofWidth:self.axesWidth andColor:self.lineColor dotted:NO];
-    if (self.showYAxis)
-        [self drawLineFrom:[self pointForX:0 andY:0] to:[self pointForX:0 andY:self.plotter.yMax] inContext:context ofWidth:self.axesWidth andColor:self.lineColor dotted:NO];
-    
-    for (int i = 1; i < self.yNumberDivision + 1; i++) {
+    for (int i = 1; i < self.plotter.yNumberDivision + 1; i++) {
         
-        float actualY = self.plotter.yMax/self.yNumberDivision * i;
+        float actualY = self.plotter.yMax/self.plotter.yNumberDivision * i;
         
         CGPoint firstPoint = CGPointMake([self pointForX:0 andY:0].x, [self pointForX:0 andY:actualY].y);
         CGPoint secondPoint = CGPointMake(self.yLabelView.frame.origin.x, firstPoint.y);
@@ -211,20 +164,54 @@
     }
     
 }
+- (void)addAxesLabels {
+    
+    if (self.plotter.yLabelWidth != 0) {
+        
+        CGRect tmpFrame = self.container;
+        tmpFrame.size.width -= MAX(self.plotter.yLabelWidth, minYLabelWidth);
+        self.container = tmpFrame;
+        
+        self.yLabelView = [[UIView alloc] initWithFrame:CGRectMake(tmpFrame.size.width - self.plotter.xPadding/2,
+                                                                   self.plotter.yPadding/2,
+                                                                   MAX(self.plotter.yLabelWidth, minYLabelWidth),
+                                                                   tmpFrame.size.height - self.plotter.yPadding - self.plotter.xLabelHeight)];
+        
+        if (debug) [self.yLabelView setBackgroundColor:[UIColor colorWithRed:0 green:1 blue:0 alpha:0.2]];
+        [self addSubview:self.yLabelView];
+        
+        
+    }
+    
+    if (self.plotter.xLabelHeight != 0) {
+        
+        CGRect tmpFrame = self.container;
+        tmpFrame.size.height -= MAX(self.plotter.xLabelHeight, minXLabelHeight);
+        self.container = tmpFrame;
+        
+        self.xLabelView = [[UIView alloc] initWithFrame:CGRectMake(self.plotter.xPadding/2,
+                                                                   tmpFrame.size.height - self.plotter.yPadding/2,
+                                                                   tmpFrame.size.width - self.plotter.xPadding - self.plotter.yLabelWidth,
+                                                                   MAX(self.plotter.xLabelHeight, minXLabelHeight))];
+        
+        if (debug) [self.xLabelView setBackgroundColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:0.2]];
+        [self addSubview:self.xLabelView];
+    }
+}
 - (void)drawYLabel:(NSString *)labelText atY:(float)y inView:(UIView *)view {
     
-    UILabel *tmpLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, y - self.yLabelView.frame.origin.y - 10, view.frame.size.width, 20)];
+    UILabel *tmpLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.plotter.yLabelOffset, y - self.yLabelView.frame.origin.y - 10, view.frame.size.width, 20)];
     [tmpLabel setText:labelText];
     [tmpLabel setAdjustsFontSizeToFitWidth:YES];
     [tmpLabel setTextColor:self.plotter.labelColor];
-    if (debug) [tmpLabel setBackgroundColor:[UIColor whiteColor]];
+    if (debug) [tmpLabel setBackgroundColor:[UIColor colorWithRed:0 green:0 blue:1 alpha:0.3]];
     [tmpLabel setFont:[UIFont systemFontOfSize:10]];
     
     [view addSubview:tmpLabel];
 }
 - (void)drawXLabel:(NSString *)labelText atX:(float)x inView:(UIView *)view {
     
-    UILabel *tmpLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, 0, 0, 20)];
+    UILabel *tmpLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, self.plotter.xLabelOffset, 0, 20)];
     [tmpLabel setText:labelText];
     [tmpLabel setTextColor:self.plotter.labelColor];
     [tmpLabel setTextAlignment:NSTextAlignmentCenter];
@@ -237,12 +224,10 @@
 
 - (CGPoint)pointForX:(float)x andY:(float)y {
     
-    return CGPointMake(((self.container.size.width - self.xPadding - self.plotter.pointRadius * 2) / (self.values.count - 1)) * x + self.xPadding/2 + self.plotter.pointRadius,
-                       self.container.size.height - (((self.container.size.height - self.yPadding - self.plotter.pointRadius * 2) /self.plotter.yMax) * y + self.yPadding/2 + self.plotter.pointRadius));
+    return CGPointMake(((self.container.size.width - self.plotter.xPadding - self.plotter.pointRadius * 2) / (self.values.count - 1)) * x + self.plotter.xPadding/2 + self.plotter.pointRadius,
+                       self.container.size.height - (((self.container.size.height - self.plotter.yPadding - self.plotter.pointRadius * 2) /self.plotter.yMax) * y + self.plotter.yPadding/2 + self.plotter.pointRadius));
     
 }
-
-
 - (void)setPerfectWidthForLabel:(UILabel *)label {
     
     CGSize maximumLabelSize = CGSizeMake(9999,label.frame.size.height);
@@ -251,7 +236,7 @@
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:label.text attributes:attributesDictionary];
     CGRect rect = [string boundingRectWithSize:maximumLabelSize options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading) context:nil];
     
-    [label setFrame:CGRectMake(label.frame.origin.x - rect.size.width/2 - self.xPadding/2, label.frame.origin.y, rect.size.width, label.frame.size.height)];
+    [label setFrame:CGRectMake(label.frame.origin.x - rect.size.width/2 - self.plotter.xPadding/2, label.frame.origin.y, rect.size.width, label.frame.size.height)];
 }
 
 @end

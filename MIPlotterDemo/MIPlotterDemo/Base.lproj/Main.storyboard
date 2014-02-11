@@ -15,7 +15,7 @@
                             <view contentMode="scaleToFill" id="4Vv-Xi-9dA">
                                 <rect key="frame" x="10" y="110" width="300" height="281"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.93347969890510951" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.86276802009999998" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MIPlotter v1.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eKo-mc-Dha">
                                 <rect key="frame" x="0.0" y="27" width="320" height="48"/>

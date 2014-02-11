@@ -14,8 +14,8 @@
 @property (strong, nonatomic) NSMutableArray *plotList;
 @property (strong, nonatomic) UIColor *backLineColor, *labelColor;
 @property (strong, nonatomic) NSArray *xLabels;
-@property (assign, nonatomic) float yMax, pointRadius, lineWidth;
-@property (assign, nonatomic) int decimationCoeff;
+@property (assign, nonatomic) float xPadding, yPadding, yMax, pointRadius, lineWidth, yLabelWidth, xLabelHeight, xLabelOffset, yLabelOffset;
+@property (assign, nonatomic) int decimationCoeff, yNumberDivision;
 
 - (id)initInView:(UIView *)view;
 

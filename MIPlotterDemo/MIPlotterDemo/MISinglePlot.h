@@ -15,9 +15,7 @@
 @property (strong, nonatomic) NSArray *values;
 @property (strong, nonatomic) UIView *xLabelView, *yLabelView;
 @property (strong, nonatomic) UIColor *lineColor, *fillColor;
-@property (assign, nonatomic) float xPadding, yPadding, yMax, axesWidth, yLabelWidth, xLabelHeight;
-@property (assign, nonatomic) int yNumberDivision;
-@property (assign, nonatomic) BOOL showPoints, showXAxis, showYAxis, showXLabel, showYLabel;
+@property (assign, nonatomic) float yMax;
 @property (strong, nonatomic) MIPlotter *plotter;
 
 - (id)initWithValues:(NSArray *)values andPlotter:(MIPlotter *)plotter;
