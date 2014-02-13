@@ -4,8 +4,15 @@ Draw your histograms quickly and easily.
 
 Setup
 ========
-+ Add MIPlotter folder to your project
-+ Import "MIPlotter.h"
++ Add the following files to your project
+
+```
+MIPlotter.h
+MIPlotter.m
+MISinglePlot.h
+MISinglePlot.m
+```
++ Import "MIPlotter.h" in your view controller
 + Do something like this
 
 ```objectivec
@@ -26,6 +33,8 @@ MIPlotter *plotter = [[MIPlotter alloc] initInView:self.PlotterContainer];
                   andID:@"third-plot"];
     
 [plotter setLabelForXValues:@[@"1 jan", @"2 jan", @"3 jan", @"4 jan", @"5 jan", @"6 jan",@"7 jan", @"8 jan", @"9 jan", @"10 jan", @"11 jan", @"12 jan",@"13 jan", @"14 jan", @"15 jan", @"16 jan", @"17 jan", @"18 jan"]];
+
+// your awesome configuration here...
 
 [plotter drawAllPlotsWithYMax:25];
 ```
